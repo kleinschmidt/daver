@@ -6,3 +6,4 @@ Description: Miscellaneous functions that I've found helpful across different pr
 Depends: R (>= 3.1.2)
 License: MIT
 LazyData: true
+Imports: boot

@@ -55,7 +55,7 @@ boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
     }
   }
 
-  booted <- boot(data, stats, R=R, ...)
+  booted <- boot::boot(data, stats, R=R, ...)
 
   ci_levels <- if (length(ci_level)==1)
                  (1-ci_level)/2 * c(1, -1) + c(0,1)
