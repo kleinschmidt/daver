@@ -25,10 +25,12 @@ p_val_to_stars <- function(p) {
 
 #' Select groups of grouped tbl
 #'
+#' Useful for examining or testing one example group
+#'
 #' @param data
 #' @param groups Group numbers to select
 #' @export
-select_groups <- function(data, groups, ...) 
+select_groups <- function(data, groups)
    data[sort(unlist(attr(data, "indices")[ groups ])) + 1, ]
 
 #' Bootstrapped CIs

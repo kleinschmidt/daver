@@ -4,7 +4,7 @@
 \alias{select_groups}
 \title{Select groups of grouped tbl}
 \usage{
-select_groups(data, groups, ...)
+select_groups(data, groups)
 }
 \arguments{
 \item{data}{}
@@ -12,6 +12,6 @@ select_groups(data, groups, ...)
 \item{groups}{Group numbers to select}
 }
 \description{
-Select groups of grouped tbl
+Useful for examining or testing one example group
 }
 
