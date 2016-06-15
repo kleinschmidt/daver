@@ -11,3 +11,4 @@ LazyData: true
 Imports:
     boot
 RoxygenNote: 5.0.1
+Suggests: testthat

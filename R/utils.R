@@ -1,5 +1,4 @@
 
-
 #' Combine two factors, preserving level order
 #'
 #' @export
