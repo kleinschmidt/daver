@@ -5,19 +5,17 @@
 #' \code{-Inf}, returns all \code{-Inf}.
 #'
 #' @param x a numeric vector of logged values.
-#' @return log of the sum of the exponentiated entries in x.
+#' @return log of the sum/mean of the exponentiated entries in x.
+#' @export
 log_sum_exp <- function(x) {
   if (any(x == Inf)) return(Inf)
   if (all(x == -Inf)) return(-Inf)
   max_x <- max(x)
   log(sum(exp(x - max_x))) + max_x
 }
-#' Numerically stable mean of logged numbers
-#'
-#' Use for, e.g., calculating marginal log-likelihood
-#'
-#' @param x a numeric vector of logged values
-#' @return the log of the mean of the exponentiated entries in x.
+
+#' @describeIn log_sum_exp Numerically stable mean of logged numbers
+#' @export
 log_mean_exp <- function(x) log_sum_exp(x) - log(length(x))
 
 
