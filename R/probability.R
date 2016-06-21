@@ -23,8 +23,7 @@ log_mean_exp <- function(x) log_sum_exp(x) - log(length(x))
 
 #' Convert joint to marginal (log) probabilities
 #'
-#' @param joint data frame with (possibly un-normalized) joint probabilities in
-#'   the \code{lhood} column.
+#' @param joint data frame with (possibly un-normalized) joint probabilities
 #' @param prob name of column with (log) probability values to normalize
 #' @param ... additional arguments are columns used to define additional
 #'   groupings for marginalization.
@@ -48,14 +47,15 @@ marginalize <- function(joint, prob, ...) {
 }
 
 #' @describeIn marginalize Marginalize log probability
+#' @export
 marginalize_log <- function(joint, log_prob, ...) {
   walk(c(log_prob, list(...)),
        ~ assert_that(has_name(joint, .)))
 
   dots <-
-    lazyeval::interp(~log_sum_exp(var), var=as.name(prob)) %>%
+    lazyeval::interp(~log_sum_exp(var), var=as.name(log_prob)) %>%
     list() %>%
-    purrr::set_names(prob)
+    purrr::set_names(log_prob)
 
   joint %>%
     group_by_(..., add=TRUE) %>%
@@ -102,6 +102,7 @@ normalize_probability <- function(d, prob_var) {
 }
 
 #' @describeIn normalize_probability Operate on log-probability
+#' @export
 normalize_log_probability <- function(d, prob_var) {
   mutate_(d,
           log_posterior = lazyeval::interp(~var-log_sum_exp(var),

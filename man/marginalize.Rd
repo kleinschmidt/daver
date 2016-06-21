@@ -10,8 +10,7 @@ marginalize(joint, prob, ...)
 marginalize_log(joint, log_prob, ...)
 }
 \arguments{
-\item{joint}{data frame with (possibly un-normalized) joint probabilities in
-the \code{lhood} column.}
+\item{joint}{data frame with (possibly un-normalized) joint probabilities}
 
 \item{prob}{name of column with (log) probability values to normalize}
 
