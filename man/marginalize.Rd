@@ -2,22 +2,31 @@
 % Please edit documentation in R/probability.R
 \name{marginalize}
 \alias{marginalize}
-\title{Convert joint to marginal probabilities}
+\alias{marginalize_log}
+\title{Convert joint to marginal (log) probabilities}
 \usage{
-marginalize(joint, marginal_vars)
+marginalize(joint, prob, ...)
+
+marginalize_log(joint, log_prob, ...)
 }
 \arguments{
 \item{joint}{data frame with (possibly un-normalized) joint probabilities in
 the \code{lhood} column.}
 
-\item{marginal_vars}{quoted names of columns with marginal variables
-(retained)}
+\item{prob}{name of column with (log) probability values to normalize}
+
+\item{...}{additional arguments are columns used to define additional
+groupings for marginalization.}
 }
 \value{
 a data frame with columsn for \code{marginal_vars} and any
   pre-existing grouping, plus marginal log likelihood.
 }
 \description{
-Convert joint to marginal probabilities
+Convert joint to marginal (log) probabilities
 }
+\section{Functions}{
+\itemize{
+\item \code{marginalize_log}: Marginalize log probability
+}}
 

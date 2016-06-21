@@ -5,7 +5,10 @@ Authors@R: person("Dave", "Kleinschmidt", email = "dave.f.kleinschmidt@gmail.com
 Description: Miscellaneous functions that I've found helpful across different
     projects, collected in a package for easy portability.
 Depends:
-    R (>= 3.1.2)
+    R (>= 3.1.2),
+    lazyeval,
+    purrr,
+    dplyr
 License: MIT
 LazyData: true
 Imports:

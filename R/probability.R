@@ -1,3 +1,5 @@
+#' @import dplyr
+NULL
 
 #' Numerically stable sum of logged numbers
 #'
@@ -19,25 +21,45 @@ log_sum_exp <- function(x) {
 log_mean_exp <- function(x) log_sum_exp(x) - log(length(x))
 
 
-#' Convert joint to marginal probabilities
+#' Convert joint to marginal (log) probabilities
 #'
 #' @param joint data frame with (possibly un-normalized) joint probabilities in
 #'   the \code{lhood} column.
-#' @param marginal_vars quoted names of columns with marginal variables
-#'   (retained)
+#' @param prob name of column with (log) probability values to normalize
+#' @param ... additional arguments are columns used to define additional
+#'   groupings for marginalization.
 #' @return a data frame with columsn for \code{marginal_vars} and any
 #'   pre-existing grouping, plus marginal log likelihood.
 #'
 #' @export
-marginalize <- function(joint, marginal_vars) {
-  walk(c('lhood', marginal_vars),
+marginalize <- function(joint, prob, ...) {
+  walk(c(prob, list(...)),
        ~ assert_that(has_name(joint, .)))
 
-  joint %>%
-    group_by_(.dots = marginal_vars, add=TRUE) %>%
-    mutate(log_lhood = log(lhood)) %>%
-    summarise(log_lhood = log_sum_exp(log_lhood))
+  dots <-
+    lazyeval::interp(~sum(var), var=as.name(prob)) %>%
+    list() %>%
+    purrr::set_names(prob)
 
+  joint %>%
+    group_by_(..., add=TRUE) %>%
+    summarise_(.dots = dots)
+
+}
+
+#' @describeIn marginalize Marginalize log probability
+marginalize_log <- function(joint, log_prob, ...) {
+  walk(c(log_prob, list(...)),
+       ~ assert_that(has_name(joint, .)))
+
+  dots <-
+    lazyeval::interp(~log_sum_exp(var), var=as.name(prob)) %>%
+    list() %>%
+    purrr::set_names(prob)
+
+  joint %>%
+    group_by_(..., add=TRUE) %>%
+    summarise_(.dots = dots)
 }
 
 #' Aggregate observations' likelihoods into single posterior
