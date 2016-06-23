@@ -89,6 +89,7 @@ aggregate_lhood <- function(lhoods, prob, ...) {
 }
 
 #' @describeIn aggregate_lhood Aggregate observations' log-likelihood
+#' @export
 aggregate_log_lhood <- function(lhoods, log_prob, ...) {
   walk(c(log_prob, ...), ~ assert_that(has_name(lhoods, .)))
 
