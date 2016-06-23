@@ -85,7 +85,7 @@ aggregate_lhood <- function(lhoods, prob, ...) {
 
   lhoods %>%
     group_by_(..., add=TRUE) %>%
-    summarise(.dots = dots)
+    summarise_(.dots = dots)
 }
 
 #' @describeIn aggregate_lhood Aggregate observations' log-likelihood
@@ -100,7 +100,7 @@ aggregate_log_lhood <- function(lhoods, log_prob, ...) {
 
   lhoods %>%
     group_by_(..., add=TRUE) %>%
-    summarise(.dots = dots)
+    summarise_(.dots = dots)
 }
 
 #' Normalize posterior
