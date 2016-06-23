@@ -4,7 +4,13 @@
 \alias{p_val_to_stars}
 \title{Format p-values in "stars" notation}
 \usage{
-p_val_to_stars(p)
+p_val_to_stars(p, approaching = FALSE)
+}
+\arguments{
+\item{p}{p-value (vectorized)}
+
+\item{approaching}{if FALSE (default), cut off at 0.05. if TRUE, use '.' for
+(0.05, 0.10] ('approaching significance')}
 }
 \description{
 Format p-values in "stars" notation

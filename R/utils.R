@@ -15,11 +15,16 @@ se <- function(x) sd(x) / sqrt(length(x))
 
 #' Format p-values in "stars" notation
 #'
+#' @param p p-value (vectorized)
+#' @param approaching if FALSE (default), cut off at 0.05. if TRUE, use '.' for
+#'   (0.05, 0.10] ('approaching significance')
+#'
 #' @export
-p_val_to_stars <- function(p) {
-  ifelse(p < 0.001, '***',
-         ifelse(p < 0.01, '**',
-                ifelse(p < 0.05, '*', '')))
+p_val_to_stars <- function(p, approaching=FALSE) {
+  ifelse(p <= 0.001, '***',
+         ifelse(p <= 0.01, '**',
+                ifelse(p <= 0.05, '*',
+                       ifelse(approaching && p <= 0.10, '.', ''))))
 }
 
 #' Select groups of grouped tbl
