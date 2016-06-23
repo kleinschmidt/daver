@@ -2,23 +2,32 @@
 % Please edit documentation in R/probability.R
 \name{aggregate_lhood}
 \alias{aggregate_lhood}
+\alias{aggregate_log_lhood}
 \title{Aggregate observations' likelihoods into single posterior}
 \usage{
-aggregate_lhood(lhoods, hypothesis_vars)
+aggregate_lhood(lhoods, prob, ...)
+
+aggregate_log_lhood(lhoods, log_prob, ...)
 }
 \arguments{
 \item{lhoods}{data frame with one row per observation and hypothesis
 combination, and column \code{log_lhood} with log-likelihood of
 observations given hypothesis}
 
-\item{hypothesis_vars}{quoted names of columns for hypothesis variables}
+\item{prob}{name of column with (log) likelihood values to aggregate}
+
+\item{...}{additional arguments are used to define additional groups to
+aggregate likelihood within}
 }
 \value{
-a data frame with one row per combination of hypothesis variables,
-  and total log likelihood, log posterior, and posterior probabilities in
-  \code{log_lhood}, \code{log_posterior}, and \code{posterior}, respectively
+a data frame with one row per group (plus additional grouping vars)
+  and total likelihood in \code{prob}
 }
 \description{
 Aggregate observations' likelihoods into single posterior
 }
+\section{Functions}{
+\itemize{
+\item \code{aggregate_log_lhood}: Aggregate observations' log-likelihood
+}}
 

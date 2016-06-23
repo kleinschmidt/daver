@@ -67,22 +67,39 @@ marginalize_log <- function(joint, log_prob, ...) {
 #' @param lhoods data frame with one row per observation and hypothesis
 #'   combination, and column \code{log_lhood} with log-likelihood of
 #'   observations given hypothesis
-#' @param hypothesis_vars quoted names of columns for hypothesis variables
-#' @return a data frame with one row per combination of hypothesis variables,
-#'   and total log likelihood, log posterior, and posterior probabilities in
-#'   \code{log_lhood}, \code{log_posterior}, and \code{posterior}, respectively
+#' @param prob name of column with (log) likelihood values to aggregate
+#' @param ... additional arguments are used to define additional groups to
+#'   aggregate likelihood within
+#' @return a data frame with one row per group (plus additional grouping vars)
+#'   and total likelihood in \code{prob}
 #'
 #' @export
-aggregate_lhood <- function(lhoods, hypothesis_vars) {
-  walk(c('log_lhood', hypothesis_vars),
+aggregate_lhood <- function(lhoods, prob, ...) {
+  walk(c(prob, ...),
        ~ assert_that(has_name(lhoods, .)))
 
+  dots <-
+    lazyeval::interp(~ exp(sum(log(var))), var=as.name(prob)) %>%
+    list() %>%
+    purrr::set_names(prob)
+
   lhoods %>%
-    group_by_(hypothesis_vars) %>%
-    summarise(log_lhood = sum(log_lhood)) %>%
-    ungroup() %>%
-    mutate(log_posterior = log_lhood - log_sum_exp(log_lhood),
-           posterior = exp(log_posterior))
+    group_by_(..., add=TRUE) %>%
+    summarise(.dots = dots)
+}
+
+#' @describeIn aggregate_lhood Aggregate observations' log-likelihood
+aggregate_log_lhood <- function(lhoods, log_prob, ...) {
+  walk(c(log_prob, ...), ~ assert_that(has_name(lhoods, .)))
+
+  dots <-
+    lazyeval::interp(~ sum(var), var=as.name(log_prob)) %>%
+    list() %>%
+    purrr::set_names(log_prob)
+
+  lhoods %>%
+    group_by_(..., add=TRUE) %>%
+    summarise(.dots = dots)
 }
 
 #' Normalize posterior
