@@ -27,6 +27,35 @@ p_val_to_stars <- function(p, approaching=FALSE) {
                        ifelse(approaching && p <= 0.10, '.', ''))))
 }
 
+#' Round up to specified ceilings
+#'
+#' @param x number to round
+#' @param ceilings ceilings to round up to
+#' @return the lowest ceiling that is greater than x
+#' @export
+ceil_to <- function(x, ceilings) {
+  tmp <- ceilings[x <= ceilings]
+  tmp[which.min(tmp)]
+}
+
+#' Format p-values in "less than" notation
+#'
+#' @param p p-value (vectorized)
+#' @param cutoffs values to be compared to
+#' @return formatted string of the form "p < %f", or "p = %.2f" if p is greater
+#'   than the highest cutoff
+#' @export
+p_val_to_less_than <- function(p, cutoffs = c(0.05, 0.01, 0.001, 0.0001)) {
+  format_cutoff <- function(.x) sprintf(paste0('p < %.', ceiling(-log10(.x)), 'f'), .x)
+
+  map_chr(p, ~ ifelse(.x > max(cutoffs),
+                      sprintf('p = %.2f', .x),
+                      .x %>%
+                        ceil_to(cutoffs) %>%
+                        format_cutoff()))
+
+}
+
 #' Select groups of grouped tbl
 #'
 #' Useful for examining or testing one example group

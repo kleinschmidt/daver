@@ -24,3 +24,4 @@ test_that("log_sum_exp of -Inf and anything is log_sum_exp of non-infinite", {
   expect_equal(log_sum_exp(c(0, -Inf)), 0)
   expect_equal(log_sum_exp(c(-Inf, Inf)), Inf)
 })
+
