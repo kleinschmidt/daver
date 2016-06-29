@@ -32,6 +32,7 @@ log_mean_exp <- function(x) log_sum_exp(x) - log(length(x))
 #'
 #' @export
 marginalize <- function(joint, prob, ...) {
+  assert_that(is.numeric(joint[[prob]]))
   walk(c(prob, list(...)),
        ~ assert_that(has_name(joint, .)))
 
@@ -49,6 +50,7 @@ marginalize <- function(joint, prob, ...) {
 #' @describeIn marginalize Marginalize log probability
 #' @export
 marginalize_log <- function(joint, log_prob, ...) {
+  assert_that(is.numeric(joint[[log_prob]]))
   walk(c(log_prob, list(...)),
        ~ assert_that(has_name(joint, .)))
 
@@ -77,6 +79,7 @@ marginalize_log <- function(joint, log_prob, ...) {
 aggregate_lhood <- function(lhoods, prob, ...) {
   walk(c(prob, ...),
        ~ assert_that(has_name(lhoods, .)))
+  assert_that(is.numeric(lhoods[[prob]]))
 
   dots <-
     lazyeval::interp(~ exp(sum(log(var))), var=as.name(prob)) %>%
@@ -92,6 +95,7 @@ aggregate_lhood <- function(lhoods, prob, ...) {
 #' @export
 aggregate_log_lhood <- function(lhoods, log_prob, ...) {
   walk(c(log_prob, ...), ~ assert_that(has_name(lhoods, .)))
+  assert_that(is.numeric(lhoods[[log_prob]]))
 
   dots <-
     lazyeval::interp(~ sum(var), var=as.name(log_prob)) %>%
@@ -113,6 +117,7 @@ aggregate_log_lhood <- function(lhoods, log_prob, ...) {
 #'   TRUE for the maximum within each group/FALSE elsewhere, respectively.
 #' @export
 normalize_probability <- function(d, prob_var) {
+  assert_that(is.numeric(d[[prob_var]]))
   d %>%
     mutate_(temp__ = lazyeval::interp(~log(var), var=as.name(prob_var))) %>%
     normalize_log_probability('temp__') %>%
@@ -122,6 +127,7 @@ normalize_probability <- function(d, prob_var) {
 #' @describeIn normalize_probability Operate on log-probability
 #' @export
 normalize_log_probability <- function(d, prob_var) {
+  assert_that(is.numeric(d[[prob_var]]))
   mutate_(d,
           log_posterior = lazyeval::interp(~var-log_sum_exp(var),
                                            var = as.name(prob_var)),
