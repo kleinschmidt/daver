@@ -72,10 +72,12 @@ select_groups <- function(data, groups)
 #' (observed value of stats applied to data, t0 in boot), and ci_lo/ci_hi.
 #'
 #' @param data Data that's provided to `boot`
-#' @param stats Named vector or list of function(d,i) that take data and indices
-#' and return a scalar statistic.
+#' @param stats Function or named vector/list of statistics to compute
+#'   bootstrapped CIs for.  Statistics should take data as their first argument,
+#'   and indices as their second, and return a scalar statistic.
 #' @param R Number of bootstrap samples (default: 1000)
-#' @param ci_level Percentage for CI (default 0.95) or lower/upper quantiles of CI.
+#' @param ci_level Percentage for CI (default 0.95) or lower/upper quantiles of
+#'   CI.
 #' @param h0 Optional null value of statistics for p value computation
 #' @param na_rm Whether to remove NAs in quantile calculation
 #' @param ... Additional arguments passed to boot.
@@ -84,13 +86,9 @@ select_groups <- function(data, groups)
 boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
                     na_rm = TRUE, ...) {
 
-  if (!is.function(stats)) {
-    stats <- function(d,i) {
-      sapply(stats, function(f) f(d,i))
-    }
-  }
+  stats_f <- purrr::partial(purrr::invoke_map_dbl, stats, list(NULL))
 
-  booted <- boot::boot(data, stats, R=R, ...)
+  booted <- boot::boot(data, stats_f, R=R, ...)
 
   ci_levels <- if (length(ci_level)==1)
                  (1-ci_level)/2 * c(1, -1) + c(0,1)
@@ -120,4 +118,3 @@ boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
   return(d)
 
 }
-

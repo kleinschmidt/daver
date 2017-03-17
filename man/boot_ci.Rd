@@ -10,12 +10,14 @@ boot_ci(data, stats, R = 1000, ci_level = 0.95, h0 = NA, na_rm = TRUE,
 \arguments{
 \item{data}{Data that's provided to `boot`}
 
-\item{stats}{Named vector or list of function(d,i) that take data and indices
-and return a scalar statistic.}
+\item{stats}{Function or named vector/list of statistics to compute
+bootstrapped CIs for.  Statistics should take data as their first argument,
+and indices as their second, and return a scalar statistic.}
 
 \item{R}{Number of bootstrap samples (default: 1000)}
 
-\item{ci_level}{Percentage for CI (default 0.95) or lower/upper quantiles of CI.}
+\item{ci_level}{Percentage for CI (default 0.95) or lower/upper quantiles of
+CI.}
 
 \item{h0}{Optional null value of statistics for p value computation}
 
