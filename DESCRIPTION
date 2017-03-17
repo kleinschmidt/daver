@@ -1,6 +1,6 @@
 Package: daver
 Title: Dave Kleinschmidt's misc. utilities
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: person("Dave", "Kleinschmidt", email = "dave.f.kleinschmidt@gmail.com", role = c("aut", "cre"))
 Description: Miscellaneous functions that I've found helpful across different
     projects, collected in a package for easy portability.
@@ -13,5 +13,5 @@ License: MIT
 LazyData: true
 Imports:
     boot
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests: testthat
