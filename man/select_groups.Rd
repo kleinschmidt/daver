@@ -7,6 +7,8 @@
 select_groups(data, groups)
 }
 \arguments{
+\item{data}{Grouped data_frame.}
+
 \item{groups}{Group numbers to select}
 }
 \description{

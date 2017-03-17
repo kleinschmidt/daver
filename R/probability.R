@@ -134,4 +134,16 @@ normalize_log_probability <- function(d, prob_var) {
           posterior = ~exp(log_posterior),
           posterior_choice = ~posterior == max(posterior))
 }
-  
+
+#' Convert a one-tailed to a two-tailed p value
+#'
+#' @param ps vector of p values
+#'
+#' @return p values above 0.5 are converted to 2*(1-p), and below to 2*p
+#'
+#' @export
+p_val_to_two_tail <- function(ps) {
+  ifelse(ps > 0.5,
+         2*(1 - ps),
+         2*ps)
+}

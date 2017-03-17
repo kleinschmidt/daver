@@ -1,3 +1,5 @@
+#' @import assertthat
+NULL
 
 #' Combine two factors, preserving level order
 #'
@@ -60,7 +62,7 @@ p_val_to_less_than <- function(p, cutoffs = c(0.05, 0.01, 0.001, 0.0001)) {
 #'
 #' Useful for examining or testing one example group
 #'
-#' @param data
+#' @param data Grouped data_frame.
 #' @param groups Group numbers to select
 #' @export
 select_groups <- function(data, groups)
@@ -86,6 +88,8 @@ select_groups <- function(data, groups)
 boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
                     na_rm = TRUE, ...) {
 
+  assert_that(is.na(h0) || length(h0) == 1 || length(h0) == length(stats))
+
   stats_f <- purrr::partial(purrr::invoke_map_dbl, stats, list(NULL))
 
   booted <- boot::boot(data, stats_f, R=R, ...)
@@ -105,14 +109,18 @@ boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
                   ci_high = cis[2,])
 
   if (!is.na(h0)) {
-    boot_p <- sapply(1:length(h0), function(i) mean(booted$t[,i] < h0[i]))
-    ## smooth with one pseudo-observation.
-    boot_p <- boot_p * (R / (R+1)) + 0.5 / (R+1)
-    ## two-tailed
-    boot_p <- ifelse(boot_p > 0.5,
-                     2*(1 - boot_p),
-                     2*boot_p)
-    d$boot_p <- boot_p
+
+    d$boot_p <- 
+      booted$t %>%
+      ## compare each row to h0 (in case separate h0s for each stat)
+      apply(1, `<`, h0) %>%
+      ## first apply pastes results as COLUMNS, so now take mean of each ROW (stat)
+      apply(1, mean) %>% 
+      {
+        . * (R / (R+1)) + 0.5 / (R+1)
+      } %>%
+      p_val_to_two_tail()
+
   }
 
   return(d)
