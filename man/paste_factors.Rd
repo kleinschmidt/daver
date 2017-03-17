@@ -9,4 +9,3 @@ paste_factors(f1, f2)
 \description{
 Combine two factors, preserving level order
 }
-

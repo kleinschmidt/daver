@@ -9,4 +9,3 @@ se(x)
 \description{
 Standard error
 }
-

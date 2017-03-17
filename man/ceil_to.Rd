@@ -17,4 +17,3 @@ the lowest ceiling that is greater than x
 \description{
 Round up to specified ceilings
 }
-

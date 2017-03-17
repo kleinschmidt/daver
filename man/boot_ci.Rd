@@ -27,4 +27,3 @@ and return a scalar statistic.}
 Returns a data_frame with columns stat (names of provided stats), observed
 (observed value of stats applied to data, t0 in boot), and ci_lo/ci_hi.
 }
-

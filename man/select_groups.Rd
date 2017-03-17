@@ -12,4 +12,3 @@ select_groups(data, groups)
 \description{
 Useful for examining or testing one example group
 }
-

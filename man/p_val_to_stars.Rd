@@ -15,4 +15,3 @@ p_val_to_stars(p, approaching = FALSE)
 \description{
 Format p-values in "stars" notation
 }
-

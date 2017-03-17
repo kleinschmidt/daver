@@ -18,4 +18,3 @@ formatted string of the form "p < %f", or "p = %.2f" if p is greater
 \description{
 Format p-values in "less than" notation
 }
-
