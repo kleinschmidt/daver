@@ -4,7 +4,7 @@
 \alias{boot_ci}
 \title{Bootstrapped CIs}
 \usage{
-boot_ci(data, stats, R = 1000, ci_level = 0.95, h0 = NA, na_rm = TRUE,
+boot_ci(data, stats, R = 1000, ci_level = 0.95, h0 = NULL, na_rm = TRUE,
   ...)
 }
 \arguments{
