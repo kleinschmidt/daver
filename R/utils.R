@@ -85,10 +85,10 @@ select_groups <- function(data, groups)
 #' @param ... Additional arguments passed to boot.
 #' 
 #' @export
-boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
+boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NULL,
                     na_rm = TRUE, ...) {
 
-  assert_that(is.na(h0) || length(h0) == 1 || length(h0) == length(stats))
+  assert_that(is.null(h0) || length(h0) == 1 || length(h0) == length(stats))
 
   stats_f <- purrr::partial(purrr::invoke_map_dbl, stats, list(NULL))
 
@@ -108,19 +108,13 @@ boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NA,
                   ci_lo = cis[1,],
                   ci_high = cis[2,])
 
-  if (!is.na(h0)) {
-
+  if (!is.null(h0)) {
     d$boot_p <- 
       booted$t %>%
-      ## compare each row to h0 (in case separate h0s for each stat)
-      apply(1, `<`, h0) %>%
-      ## first apply pastes results as COLUMNS, so now take mean of each ROW (stat)
-      apply(1, mean) %>% 
-      {
-        . * (R / (R+1)) + 0.5 / (R+1)
-      } %>%
-      p_val_to_two_tail()
-
+      purrr::array_branch(2) %>%     # make list of columns of stat samples
+      map2_dbl(h0, ~ mean(.x > .y)) %>%  # prop of samples where stat > h0
+      map_dbl(~ (.x*R + 0.5)/(R+1)) %>% # smooth by 1 pseudo obs
+      map_dbl(p_val_to_two_tail)
   }
 
   return(d)
