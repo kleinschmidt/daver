@@ -4,10 +4,10 @@
 \alias{p_val_to_two_tail}
 \title{Convert a one-tailed to a two-tailed p value}
 \usage{
-p_val_to_two_tail(ps)
+p_val_to_two_tail(p)
 }
 \arguments{
-\item{ps}{vector of p values}
+\item{p}{one-sided p values}
 }
 \value{
 p values above 0.5 are converted to 2*(1-p), and below to 2*p

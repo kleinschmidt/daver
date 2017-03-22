@@ -35,10 +35,13 @@ se <- function(x) sd(x) / sqrt(length(x))
 #'
 #' @export
 p_val_to_stars <- function(p, approaching=FALSE) {
+  assert_that(all(p <= 1))
+  assert_that(all(p >= 0))
+
   ifelse(p <= 0.001, '***',
          ifelse(p <= 0.01, '**',
                 ifelse(p <= 0.05, '*',
-                       ifelse(approaching && p <= 0.10, '.', ''))))
+                       ifelse(approaching & (p <= 0.10), '.', ''))))
 }
 
 #' Round up to specified ceilings
@@ -60,6 +63,9 @@ ceil_to <- function(x, ceilings) {
 #'   than the highest cutoff
 #' @export
 p_val_to_less_than <- function(p, cutoffs = c(0.05, 0.01, 0.001, 0.0001)) {
+  assert_that(all(p <= 1))
+  assert_that(all(p >= 0))
+
   format_cutoff <- function(.x) sprintf(paste0('p < %.', ceiling(-log10(.x)), 'f'), .x)
 
   map_chr(p, ~ ifelse(.x > max(cutoffs),

@@ -138,13 +138,16 @@ normalize_log_probability <- function(d, prob_var) {
 
 #' Convert a one-tailed to a two-tailed p value
 #'
-#' @param ps vector of p values
+#' @param p one-sided p values
 #'
 #' @return p values above 0.5 are converted to 2*(1-p), and below to 2*p
 #'
 #' @export
-p_val_to_two_tail <- function(ps) {
-  ifelse(ps > 0.5,
-         2*(1 - ps),
-         2*ps)
+p_val_to_two_tail <- function(p) {
+  assert_that(all(p <= 1))
+  assert_that(all(p >= 0))
+  
+  ifelse(p > 0.5,
+         2*(1 - p),
+         2*p)
 }
