@@ -24,7 +24,8 @@ log_mean_exp <- function(x) log_sum_exp(x) - log(length(x))
 #' Convert joint to marginal (log) probabilities
 #'
 #' @param joint data frame with (possibly un-normalized) joint probabilities
-#' @param prob name of column with (log) probability values to normalize
+#' @param prob,log_prob name of column with (log) probability values to
+#'   normalize
 #' @param ... additional arguments are columns used to define additional
 #'   groupings for marginalization.
 #' @return a data frame with columsn for \code{marginal_vars} and any
@@ -69,7 +70,7 @@ marginalize_log <- function(joint, log_prob, ...) {
 #' @param lhoods data frame with one row per observation and hypothesis
 #'   combination, and column \code{log_lhood} with log-likelihood of
 #'   observations given hypothesis
-#' @param prob name of column with (log) likelihood values to aggregate
+#' @param prob,log_prob name of column with (log) likelihood values to aggregate
 #' @param ... additional arguments are used to define additional groups to
 #'   aggregate likelihood within
 #' @return a data frame with one row per group (plus additional grouping vars)

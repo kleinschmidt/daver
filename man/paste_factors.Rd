@@ -6,6 +6,16 @@
 \usage{
 paste_factors(f1, f2)
 }
+\arguments{
+\item{f1}{First factor}
+
+\item{f2}{Second factor}
+}
+\value{
+Entries of f1 and f2 are converted to character, pasted, and
+  converted back to factor with levels in original order (with f2 levels
+  changing fastest, f1 slowest).
+}
 \description{
 Combine two factors, preserving level order
 }

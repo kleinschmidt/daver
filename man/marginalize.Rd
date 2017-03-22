@@ -12,7 +12,8 @@ marginalize_log(joint, log_prob, ...)
 \arguments{
 \item{joint}{data frame with (possibly un-normalized) joint probabilities}
 
-\item{prob}{name of column with (log) probability values to normalize}
+\item{prob, log_prob}{name of column with (log) probability values to
+normalize}
 
 \item{...}{additional arguments are columns used to define additional
 groupings for marginalization.}

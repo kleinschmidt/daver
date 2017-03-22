@@ -1,7 +1,17 @@
 #' @import assertthat
+#' @importFrom purrr map map_dbl map2_dbl map_chr invoke_map_dbl partial array_branch walk
+#' @importFrom stats quantile sd
+#' @importFrom utils head tail
 NULL
 
 #' Combine two factors, preserving level order
+#'
+#' @param f1 First factor
+#' @param f2 Second factor
+#'
+#' @return Entries of f1 and f2 are converted to character, pasted, and
+#'   converted back to factor with levels in original order (with f2 levels
+#'   changing fastest, f1 slowest).
 #'
 #' @export
 paste_factors <- function(f1, f2) {
@@ -10,7 +20,9 @@ paste_factors <- function(f1, f2) {
                         rep(levels(f2), times=nlevels(f1))))
 }
 
-#' Standard error
+#' Standard error of the mean
+#'
+#' @param x Numeric vector
 #'
 #' @export
 se <- function(x) sd(x) / sqrt(length(x))
@@ -90,7 +102,7 @@ boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NULL,
 
   assert_that(is.null(h0) || length(h0) == 1 || length(h0) == length(stats))
 
-  stats_f <- purrr::partial(purrr::invoke_map_dbl, stats, list(NULL))
+  stats_f <- partial(invoke_map_dbl, stats, list(NULL))
 
   booted <- boot::boot(data, stats_f, R=R, ...)
 
@@ -111,7 +123,7 @@ boot_ci <- function(data, stats, R=1000, ci_level=0.95, h0 = NULL,
   if (!is.null(h0)) {
     d$boot_p <- 
       booted$t %>%
-      purrr::array_branch(2) %>%     # make list of columns of stat samples
+      array_branch(2) %>%     # make list of columns of stat samples
       map2_dbl(h0, ~ mean(.x > .y)) %>%  # prop of samples where stat > h0
       map_dbl(~ (.x*R + 0.5)/(R+1)) %>% # smooth by 1 pseudo obs
       map_dbl(p_val_to_two_tail)

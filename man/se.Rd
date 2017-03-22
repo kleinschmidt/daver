@@ -2,10 +2,13 @@
 % Please edit documentation in R/utils.R
 \name{se}
 \alias{se}
-\title{Standard error}
+\title{Standard error of the mean}
 \usage{
 se(x)
 }
+\arguments{
+\item{x}{Numeric vector}
+}
 \description{
-Standard error
+Standard error of the mean
 }

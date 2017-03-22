@@ -14,7 +14,7 @@ aggregate_log_lhood(lhoods, log_prob, ...)
 combination, and column \code{log_lhood} with log-likelihood of
 observations given hypothesis}
 
-\item{prob}{name of column with (log) likelihood values to aggregate}
+\item{prob, log_prob}{name of column with (log) likelihood values to aggregate}
 
 \item{...}{additional arguments are used to define additional groups to
 aggregate likelihood within}
