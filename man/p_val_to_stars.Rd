@@ -4,13 +4,17 @@
 \alias{p_val_to_stars}
 \title{Format p-values in "stars" notation}
 \usage{
-p_val_to_stars(p, approaching = FALSE)
+p_val_to_stars(p, cutoffs = c(1, 0.05, 0.01, 0.001), stars = c("", "*",
+  "**", "***"))
 }
 \arguments{
 \item{p}{p-value (vectorized)}
 
-\item{approaching}{if FALSE (default), cut off at 0.05. if TRUE, use '.' for
-(0.05, 0.10] ('approaching significance')}
+\item{cutoffs}{numeric vector of p value cutoffs (default: c(1, 0.05, 0.01,
+0.001)).}
+
+\item{stars}{characters to use for values less than each cutoff (default:
+c("", "*", "**", "***").}
 }
 \description{
 Format p-values in "stars" notation

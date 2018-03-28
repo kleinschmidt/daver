@@ -30,18 +30,24 @@ se <- function(x) sd(x) / sqrt(length(x))
 #' Format p-values in "stars" notation
 #'
 #' @param p p-value (vectorized)
-#' @param approaching if FALSE (default), cut off at 0.05. if TRUE, use '.' for
-#'   (0.05, 0.10] ('approaching significance')
+#' @param cutoffs numeric vector of p value cutoffs (default: c(1, 0.05, 0.01,
+#'   0.001)).
+#' @param stars characters to use for values less than each cutoff (default:
+#'   c("", "*", "**", "***").
 #'
 #' @export
-p_val_to_stars <- function(p, approaching=FALSE) {
+p_val_to_stars <- function(p,
+                           cutoffs = c(1, 0.05, 0.01, 0.001),
+                           stars = c("", "*", "**", "***"))
+{
   assert_that(all(p <= 1))
   assert_that(all(p >= 0))
 
-  ifelse(p <= 0.001, '***',
-         ifelse(p <= 0.01, '**',
-                ifelse(p <= 0.05, '*',
-                       ifelse(approaching & (p <= 0.10), '.', ''))))
+  stars <- stars[order(cutoffs)]
+  cutoffs <- cutoffs[order(cutoffs)]
+
+  purrr::map_chr(p, ~ stars[first(which(.x < cutoffs))])
+
 }
 
 #' Round up to specified ceilings
