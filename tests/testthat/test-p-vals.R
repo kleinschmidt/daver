@@ -5,7 +5,9 @@ p_vals <- c(0, 0.0001, 0.002, 0.02, 0.06, 0.2, 0.8)
 test_that("p values are converted to stars correctly", {
   expect_equal(p_val_to_stars(p_vals),
                c('***', '***', '**', '*', '', '', ''))
-  expect_equal(p_val_to_stars(p_vals, approaching=TRUE),
+  expect_equal(p_val_to_stars(p_vals,
+                              cutoffs = c(1, .1, .05, .01, .001),
+                              stars = c("", ".", "*", "**", "***")),
                c('***', '***', '**', '*', '.', '', ''))
 })
 
