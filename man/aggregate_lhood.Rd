@@ -24,7 +24,8 @@ a data frame with one row per group (plus additional grouping vars)
   and total likelihood in \code{prob}
 }
 \description{
-Aggregate observations' likelihoods into single posterior
+When column \code{x} has the likelihood of one observation under hypotheses
+named in column \code{H}
 }
 \section{Functions}{
 \itemize{

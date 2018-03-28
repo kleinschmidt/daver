@@ -67,6 +67,9 @@ marginalize_log <- function(joint, log_prob, ...) {
 
 #' Aggregate observations' likelihoods into single posterior
 #'
+#' When column \code{x} has the likelihood of one observation under hypotheses
+#' named in column \code{H}
+#'
 #' @param lhoods data frame with one row per observation and hypothesis
 #'   combination, and column \code{log_lhood} with log-likelihood of
 #'   observations given hypothesis
